@@ -16,7 +16,7 @@ $manager = new TcyclingManager($db);
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
-		<link rel="icon" href="images/favicon.ico" />
+		<link rel="icon" href="images/cycling_ico.ico" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
 	<body class="is-preload">
