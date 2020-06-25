@@ -116,7 +116,10 @@ class Thiking extends tracks
     $dennivele = $this->dennivele();
     $vitesse_moy = $this->vitesse_moy();
 
-    $calories =0;
+    if ($dennivele < 500)
+      $calories = 400 * $temps;
+     else
+      $calories = 500 * $temps;
       
     
     $this->setCalories($calories); 
