@@ -121,7 +121,7 @@ $manager = new TrunningManager($db);
 						if ($tracks->isValid())
 						  {
 						    $tracks->calc_vitesse_moy();
-						    $tcycling->calc_calories(65);
+						    $tracks->calc_calories(65);
 
 						    $manager->save($tracks);
 						    
