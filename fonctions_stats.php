@@ -37,4 +37,35 @@
 
 		}
 
+		function calc_temps_allSport_mois($bdd){
+			// requete running
+			$req_running = $bdd->query('SELECT SUM( TIME_TO_SEC( `temps_course` ) ) as tot_running											   
+									   FROM `tracks` WHERE month(date_course)= month(now())');
+			$sec_running = $req_running->fetch();
+
+			// requete cycling
+
+			$req_cycling = $bdd->query('SELECT SUM( TIME_TO_SEC( `temps_course` ) ) as tot_cycling											   
+									   FROM `cycling` WHERE month(date_course)= month(now())');
+			$sec_cycling = $req_cycling->fetch();
+
+			// requete hiking
+
+			$req_hiking = $bdd->query('SELECT SUM( TIME_TO_SEC( `temps_course` ) ) as tot_hiking											   
+									   FROM `hiking` WHERE month(date_course)= month(now())');
+			$sec_hiking = $req_hiking->fetch();
+
+			// requete swinmming
+
+			$req_swimming = $bdd->query('SELECT SUM( TIME_TO_SEC( `temps_course` ) ) as tot_swimming											   
+									   FROM `swimming` WHERE month(date_course)= month(now())');
+			$sec_swimming = $req_swimming->fetch();
+
+			$secondes = $sec_running['tot_running'] + $sec_cycling['tot_cycling'] + $sec_hiking['tot_hiking'] + $sec_swimming['tot_swimming'];
+
+			$heures = $secondes/3600;
+
+			return round($heures,1);
+		}
+
 ?>
