@@ -22,8 +22,6 @@
 											max(km) as max_km, 
 											max(vitesse_moy) as max_vitesseMoyenne  
 										FROM `tracks` WHERE month(date_course)= month(now())');
-
-			/* */
 ?>
 <!DOCTYPE HTML>
 <!--
@@ -78,34 +76,7 @@
 						<h2>Mois</h2>
 						<?php 
 							$donnees_mois = $req_mois->fetch();
-							$heures_tot_mois = nbHeures_allSports_mois($bdd);
 						?>
-
-						<table>
-							<thead>
-								<tr>
-									<th></th>
-									<th>Total</th>
-									<th>Max</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>Distance</td>
-									<td><?php echo $heures_tot_mois; ?> heures tot ce mois</td>
-									<td><?php echo $donnees_mois['max_km']; ?> km</td>
-								</tr>
-									<tr>
-									<td>Vitesse moyenne</td>
-									<td><?php echo number_format($donnees_mois['vitesse'],2); ?> km/h</td>
-									<td><?php echo $donnees_mois['max_vitesseMoyenne']; ?> km/h</td>
-								</tr>
-								<tr>
-									<td>Temps</td>
-									<td><?php echo $donnees_mois['tot_tempsCourse']; ?></td>
-									<td><?php echo $donnees_mois['max_tempsCourse']; ?></td>
-								</tr>
-						</table>
 
 						<table>
 							<thead>
