@@ -37,6 +37,8 @@
 
 		}
 
+		/* calcul du temps toutes activitées confondues du mois en cours */ 
+
 		function calc_temps_allSport_mois($bdd){
 			// requete running
 			$req_running = $bdd->query('SELECT SUM( TIME_TO_SEC( `temps_course` ) ) as tot_running											   
@@ -66,6 +68,71 @@
 			$heures = $secondes/3600;
 
 			return round($heures,1);
+		}
+
+		function calc_activites_mois($bdd, $sport){
+
+			$nb = 0;
+			$sports = ["tracks", "cycling", "hiking", "swimming"];
+
+			if ($sport == "all"){
+				for ($i=0;$i<count($sports);$i++){
+					$sql = 'SELECT COUNT(*) FROM '.$sports[$i].' WHERE month(date_course)= month(now())';
+					$requete = $bdd->prepare($sql);
+					$requete->execute();
+
+    				$nb_sport = $requete->fetch();
+
+    				$nb += $nb_sport[0];
+				}
+				return $nb;
+			}
+
+			else{
+
+				$sql = 'SELECT COUNT(*) FROM '.$sport.' WHERE month(date_course)= month(now())';
+				$requete = $bdd->prepare($sql);
+				$requete->execute();
+
+    			$nb_sport = $requete->fetch();
+
+    			return $nb_sport[0];
+			}
+/*
+			$sql = 'SELECT COUNT(*) FROM '.$sport.' WHERE month(date_course)= month(now())';
+			$requete = $bdd->prepare($sql);
+			$requete->execute();
+
+    		$nb_sport = $requete->fetch();
+
+			// requete running
+			$req_running = $bdd->query('SELECT COUNT(*) 											   
+									   FROM `tracks` WHERE month(date_course)= month(now())');
+			$nb_running = $req_running->fetch();
+
+			// requete cycling
+
+			$req_cycling = $bdd->query('SELECT COUNT(*)											   
+									   FROM `cycling` WHERE month(date_course)= month(now())');
+			$nb_cycling = $req_cycling->fetch();
+
+			// requete hiking
+
+			$req_hiking = $bdd->query('SELECT COUNT(*)											   
+									   FROM `hiking` WHERE month(date_course)= month(now())');
+			$nb_hiking = $req_hiking->fetch();
+
+			// requete swinmming
+
+			$req_swimming = $bdd->query('SELECT COUNT(*)											   
+									   FROM `swimming` WHERE month(date_course)= month(now())');
+			$nb_swimming = $req_swimming->fetch();
+
+			$nb = $nb_running[0] + $nb_cycling[0] + $nb_hiking[0] + $nb_swimming[0] ;
+
+			return $nb_sport[0];
+			*/
+
 		}
 
 ?>

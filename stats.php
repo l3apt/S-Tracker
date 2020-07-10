@@ -77,6 +77,7 @@
 						<?php 
 							$donnees_mois = $req_mois->fetch();
 							$heures_tot_mois_allSports = calc_temps_allSport_mois($bdd);
+							$nb_act_mois_allSports = calc_activites_mois($bdd,"all");
 						?>
 
 						<table>
@@ -91,7 +92,7 @@
 								<tr>
 									<td>Distance</td>
 									<td><?php echo $heures_tot_mois_allSports; ?> heures tot. ce mois </td>
-									<td><?php echo $donnees_mois['max_km']; ?> km</td>
+									<td><?php echo $nb_act_mois_allSports; ?> activitées ce mois</td>
 								</tr>
 									<tr>
 									<td>Vitesse moyenne</td>
