@@ -76,7 +76,7 @@
 						<h2>Mois</h2>
 						<?php 
 							$donnees_mois = $req_mois->fetch();
-							$heures_tot_mois_allSports = calc_temps_allSport_mois($bdd);
+							$heures_tot_mois_allSports = calc_temps_allSport_mois($bdd,"all");
 							$nb_act_mois_allSports = calc_activites_mois($bdd,"all");
 						?>
 
