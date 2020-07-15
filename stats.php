@@ -72,37 +72,47 @@
 
 				<!-- Main -->
 					<div id="main">
-						<h1>Running</h1>
-						<h2>Mois</h2>
+						<h1>Baptiste, 25 ans</h1>
+						<h2>STATS</h2>
 						<?php 
 							$donnees_mois = $req_mois->fetch();
-							$heures_tot_mois_allSports = calc_temps_allSport_mois($bdd,"all");
-							$nb_act_mois_allSports = calc_activites_mois($bdd,"all");
+
+							//données du mois en cours
+							$temps_mois = calc_temps($bdd,"all","mois");
+							$nbAct_mois = calc_nbActivites($bdd,"all","mois");
+
+							// données de l'année en cours
+							$temps_annee = calc_temps($bdd,"all","annee");
+							$nbAct_annee = calc_nbActivites($bdd,"all","annee");
+
+							// données totale
+							$temps_tot = calc_temps($bdd,"all","all");
+							$nbAct_tot = calc_nbActivites($bdd,"all","all");
 						?>
 
 						<table>
 							<thead>
 								<tr>
 									<th></th>
-									<th>Total</th>
-									<th>Max</th>
+									<th>Temps</th>
+									<th>Nb d'activitées</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td>Distance</td>
-									<td><?php echo $heures_tot_mois_allSports; ?> heures tot. ce mois </td>
-									<td><?php echo $nb_act_mois_allSports; ?> activitées ce mois</td>
-								</tr>
-									<tr>
-									<td>Vitesse moyenne</td>
-									<td><?php echo number_format($donnees_mois['vitesse'],2); ?> km/h</td>
-									<td><?php echo $donnees_mois['max_vitesseMoyenne']; ?> km/h</td>
+									<td>Mois</td>
+									<td><?php echo $temps_mois; ?> heures tot. ce mois </td>
+									<td><?php echo $nbAct_mois; ?> activitées ce mois</td>
 								</tr>
 								<tr>
-									<td>Temps</td>
-									<td><?php echo $donnees_mois['tot_tempsCourse']; ?></td>
-									<td><?php echo $donnees_mois['max_tempsCourse']; ?></td>
+									<td>Année</td>
+									<td><?php echo $temps_annee; ?> heures tot. cette année </td>
+									<td><?php echo $nbAct_annee; ?> activitées cette année</td>
+								</tr>
+								<tr>
+									<td>Total</td>
+									<td><?php echo $temps_tot; ?> heures tot. au total </td>
+									<td><?php echo $nbAct_tot; ?> activitées au total</td>
 								</tr>
 						</table>
 

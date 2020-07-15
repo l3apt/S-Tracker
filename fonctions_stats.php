@@ -37,16 +37,25 @@
 
 		}
 
-		/* calcul du temps toutes activitées confondues du mois en cours */ 
+		/* calcul du temps sur le mois en cours (all: tous sports) */ 
 
-		function calc_temps_allSport_mois($bdd,$sport){
+		function calc_temps($bdd,$sport, $duree){
 			
 			$heure_sport_tot = 0;
 			$sports = ["tracks", "cycling", "hiking", "swimming"];
 
+			// tous les sports
 			if ($sport == "all"){
 				for ($i=0;$i<count($sports);$i++){
-					$sql = 'SELECT SUM( TIME_TO_SEC( `temps_course` ) ) FROM '.$sports[$i].' WHERE month(date_course)= month(now())';
+					//gestion de la requete par rapport à la durée demandée
+					if ($duree == "mois")
+						$sql = 'SELECT SUM( TIME_TO_SEC( `temps_course` ) ) FROM '.$sports[$i].' WHERE month(date_course)= month(now())';
+					else if ($duree == "annee")
+						$sql = 'SELECT SUM( TIME_TO_SEC( `temps_course` ) ) FROM '.$sports[$i].' WHERE year(date_course)= year(now())';
+					else if ($duree == "all")
+						$sql = 'SELECT SUM( TIME_TO_SEC( `temps_course` ) ) FROM '.$sports[$i].'  ';
+					else
+						return "-1";
 					$requete = $bdd->prepare($sql);
 					$requete->execute();
 
@@ -58,9 +67,17 @@
 
 			}
 
+			// un sport spécifique
 			else{
-
-				$sql = 'SELECT SUM( TIME_TO_SEC( `temps_course` ) ) FROM '.$sport.' WHERE month(date_course)= month(now())';
+					//gestion de la requete par rapport à la durée demandée
+					if ($duree == "mois")
+						$sql = 'SELECT SUM( TIME_TO_SEC( `temps_course` ) ) FROM '.$sport.' WHERE month(date_course)= month(now())';
+					else if ($duree == "annee")
+						$sql = 'SELECT SUM( TIME_TO_SEC( `temps_course` ) ) FROM '.$sport.' WHERE year(date_course)= year(now())';
+					else if ($duree == "all")
+						$sql = 'SELECT SUM( TIME_TO_SEC( `temps_course` ) ) FROM '.$sport.'  ';
+					else
+						return "-1";
 				$requete = $bdd->prepare($sql);
 				$requete->execute();
 
@@ -74,16 +91,28 @@
 
 		}
 
-		// calcul du nombre d'activités réalisées sur le mois en cours en fonction du sport (all: tous sports)
+		// calcul du nombre d'activités réalisées sur le mois en cours en fonction du sport (all: tous sports) et de la durée ("mois" ou "annee")
 
-		function calc_activites_mois($bdd, $sport){
+		function calc_nbActivites($bdd, $sport,$duree){
 
 			$nb = 0;
 			$sports = ["tracks", "cycling", "hiking", "swimming"];
 
+			
+			//tous les sports
 			if ($sport == "all"){
 				for ($i=0;$i<count($sports);$i++){
-					$sql = 'SELECT COUNT(*) FROM '.$sports[$i].' WHERE month(date_course)= month(now())';
+
+					//gestion de la requete par rapport à la durée demandée
+					if ($duree == "mois")
+						$sql = 'SELECT COUNT(*) FROM '.$sports[$i].' WHERE month(date_course)= month(now())';
+					else if ($duree == "annee")
+						$sql = 'SELECT COUNT(*) FROM '.$sports[$i].' WHERE year(date_course)= year(now())';
+					else if ($duree == "all")
+						$sql = 'SELECT COUNT(*) FROM '.$sports[$i].'  ';
+					else
+						return "-1";
+
 					$requete = $bdd->prepare($sql);
 					$requete->execute();
 
@@ -94,9 +123,19 @@
 				return $nb;
 			}
 
+			//un sport spécifique
 			else{
 
-				$sql = 'SELECT COUNT(*) FROM '.$sport.' WHERE month(date_course)= month(now())';
+				//gestion de la requete par rapport à la durée demandée
+				if ($duree == "mois")
+					$sql = 'SELECT COUNT(*) FROM '.$sport.' WHERE month(date_course)= month(now())';
+				else if ($duree == "annee")
+					$sql = 'SELECT COUNT(*) FROM '.$sport.' WHERE year(date_course)= year(now())';
+				else if ($duree == "all")
+					$sql = 'SELECT COUNT(*) FROM '.$sport.'';
+				else
+					return "-1";
+
 				$requete = $bdd->prepare($sql);
 				$requete->execute();
 
@@ -104,41 +143,8 @@
 
     			return $nb_sport[0];
 			}
-/*
-			$sql = 'SELECT COUNT(*) FROM '.$sport.' WHERE month(date_course)= month(now())';
-			$requete = $bdd->prepare($sql);
-			$requete->execute();
-
-    		$nb_sport = $requete->fetch();
-
-			// requete running
-			$req_running = $bdd->query('SELECT COUNT(*) 											   
-									   FROM `tracks` WHERE month(date_course)= month(now())');
-			$nb_running = $req_running->fetch();
-
-			// requete cycling
-
-			$req_cycling = $bdd->query('SELECT COUNT(*)											   
-									   FROM `cycling` WHERE month(date_course)= month(now())');
-			$nb_cycling = $req_cycling->fetch();
-
-			// requete hiking
-
-			$req_hiking = $bdd->query('SELECT COUNT(*)											   
-									   FROM `hiking` WHERE month(date_course)= month(now())');
-			$nb_hiking = $req_hiking->fetch();
-
-			// requete swinmming
-
-			$req_swimming = $bdd->query('SELECT COUNT(*)											   
-									   FROM `swimming` WHERE month(date_course)= month(now())');
-			$nb_swimming = $req_swimming->fetch();
-
-			$nb = $nb_running[0] + $nb_cycling[0] + $nb_hiking[0] + $nb_swimming[0] ;
-
-			return $nb_sport[0];
-			*/
-
 		}
+
+
 
 ?>
