@@ -37,7 +37,7 @@
 
 		}
 
-		/* calcul du temps sur le mois en cours (all: tous sports) */ 
+		/* calcul du temps réalisées en fonction du sport (all: tous sports) et de la durée ("mois" ou "annee", "all": de tous temps) */
 
 		function calc_temps($bdd,$sport, $duree){
 			
@@ -91,7 +91,7 @@
 
 		}
 
-		// calcul du nombre d'activités réalisées sur le mois en cours en fonction du sport (all: tous sports) et de la durée ("mois" ou "annee")
+		// calcul du nombre d'activités réalisées en fonction du sport (all: tous sports) et de la durée ("mois" ou "annee", "all": de tous temps)
 
 		function calc_nbActivites($bdd, $sport,$duree){
 
@@ -144,6 +144,62 @@
     			return $nb_sport[0];
 			}
 		}
+
+
+		// calcul du nombre de calories en fonction du sport (all: tous sports) et de la durée ("mois" ou "annee")
+
+		function calc_calories($bdd, $sport,$duree){
+
+			$cal_tot = 0;
+			$sports = ["tracks", "cycling", "hiking", "swimming"];
+
+			
+			//tous les sports
+			if ($sport == "all"){
+				for ($i=0;$i<count($sports);$i++){
+
+					//gestion de la requete par rapport à la durée demandée
+					if ($duree == "mois")
+						$sql = 'SELECT SUM(calories) FROM '.$sports[$i].' WHERE month(date_course)= month(now())';
+					else if ($duree == "annee")
+						$sql = 'SELECT SUM(calories) FROM '.$sports[$i].' WHERE year(date_course)= year(now())';
+					else if ($duree == "all")
+						$sql = 'SELECT SUM(calories) FROM '.$sports[$i].'  ';
+					else
+						return "-1";
+
+					$requete = $bdd->prepare($sql);
+					$requete->execute();
+
+    				$cal = $requete->fetch();
+
+    				$cal_tot += $cal[0];
+				}
+				return $cal_tot;
+			}
+
+			//un sport spécifique
+			else{
+
+				//gestion de la requete par rapport à la durée demandée
+				if ($duree == "mois")
+					$sql = 'SELECT SUM(calories) FROM '.$sport.' WHERE month(date_course)= month(now())';
+				else if ($duree == "annee")
+					$sql = 'SELECT SUM(calories) FROM '.$sport.' WHERE year(date_course)= year(now())';
+				else if ($duree == "all")
+					$sql = 'SELECT SUM(calories) FROM '.$sport.'';
+				else
+					return "-1";
+
+				$requete = $bdd->prepare($sql);
+				$requete->execute();
+
+    			$cal = $requete->fetch();
+
+    			return $cal[0];
+			}
+		}
+
 
 
 

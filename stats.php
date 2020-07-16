@@ -80,14 +80,17 @@
 							//données du mois en cours
 							$temps_mois = calc_temps($bdd,"all","mois");
 							$nbAct_mois = calc_nbActivites($bdd,"all","mois");
+							$cal_mois = calc_calories($bdd,"all","mois");
 
 							// données de l'année en cours
 							$temps_annee = calc_temps($bdd,"all","annee");
 							$nbAct_annee = calc_nbActivites($bdd,"all","annee");
+							$cal_annee = calc_calories($bdd,"all","annee");
 
 							// données totale
 							$temps_tot = calc_temps($bdd,"all","all");
 							$nbAct_tot = calc_nbActivites($bdd,"all","all");
+							$cal_tot = calc_calories($bdd,"all","all");
 						?>
 
 						<table>
@@ -96,6 +99,7 @@
 									<th></th>
 									<th>Temps</th>
 									<th>Nb d'activitées</th>
+									<th>Calories</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -103,44 +107,22 @@
 									<td>Mois</td>
 									<td><?php echo $temps_mois; ?> heures tot. ce mois </td>
 									<td><?php echo $nbAct_mois; ?> activitées ce mois</td>
+									<td><?php echo $cal_mois; ?> calories brûlées ce mois</td>
 								</tr>
 								<tr>
 									<td>Année</td>
-									<td><?php echo $temps_annee; ?> heures tot. cette année </td>
+									<td><?php echo $temps_annee; ?> heures cette année </td>
 									<td><?php echo $nbAct_annee; ?> activitées cette année</td>
+									<td><?php echo $cal_annee; ?> calories brûlées cette année</td>
 								</tr>
 								<tr>
 									<td>Total</td>
-									<td><?php echo $temps_tot; ?> heures tot. au total </td>
+									<td><?php echo $temps_tot; ?> heures au total </td>
 									<td><?php echo $nbAct_tot; ?> activitées au total</td>
+									<td><?php echo $cal_tot; ?> calories brûlées au total</td>
 								</tr>
 						</table>
-
-						<table>
-							<thead>
-								<tr>
-									<th></th>
-									<th>Total</th>
-									<th>Max</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>Distance</td>
-									<td><?php echo $donnees_mois['tot_km']; ?> km</td>
-									<td><?php echo $donnees_mois['max_km']; ?> km</td>
-								</tr>
-									<tr>
-									<td>Vitesse moyenne</td>
-									<td><?php echo number_format($donnees_mois['vitesse'],2); ?> km/h</td>
-									<td><?php echo $donnees_mois['max_vitesseMoyenne']; ?> km/h</td>
-								</tr>
-								<tr>
-									<td>Temps</td>
-									<td><?php echo $donnees_mois['tot_tempsCourse']; ?></td>
-									<td><?php echo $donnees_mois['max_tempsCourse']; ?></td>
-								</tr>
-						</table>	
+	
 
 						<h2>Année</h2>
 						<?php 
