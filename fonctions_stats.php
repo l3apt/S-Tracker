@@ -201,6 +201,58 @@
 		}
 
 
+		// calcul du dénnivelé positif en fonction du sport (all: tous sports) et de la durée ("mois" ou "annee")
 
+		function calc_denniv($bdd, $sport,$duree){
+
+			$denniv_tot = 0;
+			$sports = ["cycling", "hiking"];
+
+			
+			//tous les sports
+			if ($sport == "all"){
+				for ($i=0;$i<count($sports);$i++){
+
+					//gestion de la requete par rapport à la durée demandée
+					if ($duree == "mois")
+						$sql = 'SELECT SUM(dennivele) FROM '.$sports[$i].' WHERE month(date_course)= month(now())';
+					else if ($duree == "annee")
+						$sql = 'SELECT SUM(dennivele) FROM '.$sports[$i].' WHERE year(date_course)= year(now())';
+					else if ($duree == "all")
+						$sql = 'SELECT SUM(dennivele) FROM '.$sports[$i].'  ';
+					else
+						return "-1";
+
+					$requete = $bdd->prepare($sql);
+					$requete->execute();
+
+    				$denniv = $requete->fetch();
+
+    				$denniv_tot += $denniv[0];
+				}
+				return $denniv_tot;
+			}
+
+			//un sport spécifique
+			else{
+
+				//gestion de la requete par rapport à la durée demandée
+				if ($duree == "mois")
+					$sql = 'SELECT SUM(dennivele) FROM '.$sport.' WHERE month(date_course)= month(now())';
+				else if ($duree == "annee")
+					$sql = 'SELECT SUM(dennivele) FROM '.$sport.' WHERE year(date_course)= year(now())';
+				else if ($duree == "all")
+					$sql = 'SELECT SUM(dennivele) FROM '.$sport.'';
+				else
+					return "-1";
+
+				$requete = $bdd->prepare($sql);
+				$requete->execute();
+
+    			$denniv = $requete->fetch();
+
+    			return $denniv[0];
+			}
+		}
 
 ?>

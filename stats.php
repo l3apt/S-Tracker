@@ -81,16 +81,19 @@
 							$temps_mois = calc_temps($bdd,"all","mois");
 							$nbAct_mois = calc_nbActivites($bdd,"all","mois");
 							$cal_mois = calc_calories($bdd,"all","mois");
+							$denniv_mois = calc_denniv($bdd,"all","mois");
 
 							// données de l'année en cours
 							$temps_annee = calc_temps($bdd,"all","annee");
 							$nbAct_annee = calc_nbActivites($bdd,"all","annee");
 							$cal_annee = calc_calories($bdd,"all","annee");
+							$denniv_annee = calc_denniv($bdd,"all","annee");
 
 							// données totale
 							$temps_tot = calc_temps($bdd,"all","all");
 							$nbAct_tot = calc_nbActivites($bdd,"all","all");
 							$cal_tot = calc_calories($bdd,"all","all");
+							$denniv_tot = calc_denniv($bdd,"all","all");
 						?>
 
 						<table>
@@ -100,6 +103,7 @@
 									<th>Temps</th>
 									<th>Nb d'activitées</th>
 									<th>Calories</th>
+									<th>D+</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -108,18 +112,21 @@
 									<td><?php echo $temps_mois; ?> heures tot. ce mois </td>
 									<td><?php echo $nbAct_mois; ?> activitées ce mois</td>
 									<td><?php echo $cal_mois; ?> calories brûlées ce mois</td>
+									<td><?php echo $denniv_mois; ?> m positifs ce mois</td>
 								</tr>
 								<tr>
 									<td>Année</td>
 									<td><?php echo $temps_annee; ?> heures cette année </td>
 									<td><?php echo $nbAct_annee; ?> activitées cette année</td>
 									<td><?php echo $cal_annee; ?> calories brûlées cette année</td>
+									<td><?php echo $denniv_annee; ?> m positifs cette année</td>
 								</tr>
 								<tr>
 									<td>Total</td>
 									<td><?php echo $temps_tot; ?> heures au total </td>
 									<td><?php echo $nbAct_tot; ?> activitées au total</td>
 									<td><?php echo $cal_tot; ?> calories brûlées au total</td>
+									<td><?php echo $denniv_tot; ?> m positifs au total</td>
 								</tr>
 						</table>
 	
