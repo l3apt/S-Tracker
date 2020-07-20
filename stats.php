@@ -94,6 +94,13 @@
 							$nbAct_tot = calc_nbActivites($bdd,"all","all");
 							$cal_tot = calc_calories($bdd,"all","all");
 							$denniv_tot = calc_denniv($bdd,"all","all");
+
+							// temps par sport
+							$tempsParSport[0] = calc_temps($bdd,"tracks","all");
+							$tempsParSport[1] = calc_temps($bdd,"cycling","all");
+							$tempsParSport[2] = calc_temps($bdd,"hiking","all");
+							$tempsParSport[3] = calc_temps($bdd,"swimming","all");
+
 						?>
 
 						<table>
@@ -109,7 +116,7 @@
 							<tbody>
 								<tr>
 									<td>Mois</td>
-									<td><?php echo $temps_mois; ?> heures tot. ce mois </td>
+									<td><?php echo $temps_mois; ?> heures ce mois </td>
 									<td><?php echo $nbAct_mois; ?> activitées ce mois</td>
 									<td><?php echo $cal_mois; ?> calories brûlées ce mois</td>
 									<td><?php echo $denniv_mois; ?> m positifs ce mois</td>
@@ -129,6 +136,39 @@
 									<td><?php echo $denniv_tot; ?> m positifs au total</td>
 								</tr>
 						</table>
+
+						<!--TEST graphiques chart.js --> 
+
+						<canvas id="myChart"></canvas>
+						<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+						<script>
+							var ctx = document.getElementById('myChart').getContext('2d');
+							var chart = new Chart(ctx, {
+							    // The type of chart we want to create
+							    type: 'pie',
+
+							    // The data for our dataset
+							    data: {
+							        labels: ['Running', 'Cycling', 'Hiking', 'Swimming'],
+							        datasets: [{
+							            label: 'My First dataset',
+							            backgroundColor: ['rgb(255, 99, 132)','rgb(227, 255, 51)','rgb(51, 255, 85)','rgb(79, 51, 255)'],
+							            borderColor: 'rgb(173, 173, 173)',
+							            data: [<?php echo $tempsParSport[0]; ?>,
+							            	 	<?php echo $tempsParSport[1]; ?>,
+							            	 	<?php echo $tempsParSport[2]; ?>,
+							            	 	<?php echo $tempsParSport[3]; ?>] 
+							        }]
+							    },
+
+							    // Configuration options go here
+							    options: {}
+							});
+
+						</script>
+
+
 	
 
 						<h2>Année</h2>
