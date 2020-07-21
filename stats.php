@@ -95,11 +95,21 @@
 							$cal_tot = calc_calories($bdd,"all","all");
 							$denniv_tot = calc_denniv($bdd,"all","all");
 
-							// temps par sport
+							// par sport
 							$tempsParSport[0] = calc_temps($bdd,"tracks","all");
 							$tempsParSport[1] = calc_temps($bdd,"cycling","all");
 							$tempsParSport[2] = calc_temps($bdd,"hiking","all");
 							$tempsParSport[3] = calc_temps($bdd,"swimming","all");
+
+							$calParSport[0] = calc_calories($bdd,"tracks","all");
+							$calParSport[1] = calc_calories($bdd,"cycling","all");
+							$calParSport[2] = calc_calories($bdd,"hiking","all");
+							$calParSport[3] = "0";
+
+							$nbActParSport[0] = calc_nbActivites($bdd,"tracks","all");
+							$nbActParSport[1] = calc_nbActivites($bdd,"cycling","all");
+							$nbActParSport[2] = calc_nbActivites($bdd,"hiking","all");
+							$nbActParSport[3] = calc_nbActivites($bdd,"swimming","all");
 
 						?>
 
@@ -139,34 +149,121 @@
 
 						<!--TEST graphiques chart.js --> 
 
-						<canvas id="myChart"></canvas>
-						<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+						<div class="col-12">
+												<select name="demo-category" id="choix_graph">
+													<option value="" selected>- Choisir donnée -</option>
+													<option value="0">Temps</option>
+													<option value="1">Calories</option>
+													<option value="2">Nombre d'activitées</option>
+												</select>
+						</div>
 
-						<script>
-							var ctx = document.getElementById('myChart').getContext('2d');
-							var chart = new Chart(ctx, {
-							    // The type of chart we want to create
-							    type: 'pie',
+						<div id='graph_conteneur'>
 
-							    // The data for our dataset
-							    data: {
-							        labels: ['Running', 'Cycling', 'Hiking', 'Swimming'],
-							        datasets: [{
-							            label: 'My First dataset',
-							            backgroundColor: ['rgb(255, 99, 132)','rgb(227, 255, 51)','rgb(51, 255, 85)','rgb(79, 51, 255)'],
-							            borderColor: 'rgb(173, 173, 173)',
-							            data: [<?php echo $tempsParSport[0]; ?>,
-							            	 	<?php echo $tempsParSport[1]; ?>,
-							            	 	<?php echo $tempsParSport[2]; ?>,
-							            	 	<?php echo $tempsParSport[3]; ?>] 
-							        }]
-							    },
+							<canvas id="myChart"></canvas>
+							<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+						
 
-							    // Configuration options go here
-							    options: {}
-							});
+							<script>
+								
+								var ctx = document.getElementById('myChart').getContext('2d');
+								
+								
 
-						</script>
+
+								select_elt.addEventListener("change", function (e){
+
+									var choix_data = choix_graph.value;
+
+
+									var select_elt = document.getElementById("choix_graph");
+
+									if (choix_data == "0"){
+										var dataSport =[<?php echo $tempsParSport[0]; ?>,
+														<?php echo $tempsParSport[1]; ?>, 
+														<?php echo $tempsParSport[2]; ?>, 
+														<?php echo $tempsParSport[3]; ?>];
+									}
+									
+									if (choix_data == "1"){
+										var dataSport =[<?php echo $calParSport[0]; ?>,
+														<?php echo $calParSport[1]; ?>, 
+														<?php echo $calParSport[2]; ?>, 
+														<?php echo $calParSport[3]; ?>];
+									}
+									if (choix_data == "2"){
+										var dataSport =[<?php echo $nbActParSport[0]; ?>,
+													<?php echo $nbActParSport[1]; ?>, 
+													<?php echo $nbActParSport[2]; ?>, 
+													<?php echo $nbActParSport[3]; ?>];
+									}
+			
+									var chart = new Chart(ctx, {
+								    // The type of chart we want to create
+								    type: 'doughnut',
+
+								    // The data for our dataset
+								    data: {
+								        labels: ['Running', 'Cycling', 'Hiking', 'Swimming'],
+								        datasets: [{
+								            label: 'My First dataset',
+								            backgroundColor: ['rgb(255, 99, 132)','rgb(227, 255, 51)','rgb(51, 255, 85)','rgb(79, 51, 255)'],
+								            borderColor: 'rgb(173, 173, 173)',
+								            data: dataSport
+
+								        }]
+								    },
+
+								    // Configuration options go here
+								    options: {
+								    	animation:{
+								    		animateScale: true
+								   		 }
+								    }
+
+								});
+
+
+								});					
+								
+
+							</script>
+
+						</div>
+
+						<table>
+							<thead>
+								<tr>
+									<th></th>
+									<th>running</th>
+									<th>cycling</th>
+									<th>hiking</th>
+									<th>swimming</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Mois</td>
+									<td><?php echo $tempsParSport[0]; ?> heures </td>
+									<td><?php echo $tempsParSport[1]; ?> heures </td>
+									<td><?php echo $tempsParSport[2]; ?> heures </td>
+									<td><?php echo $tempsParSport[3]; ?> heures </td>
+								</tr>
+								<tr>
+									<td>Année</td>
+									<td><?php echo $temps_annee; ?> heures cette année </td>
+									<td><?php echo $nbAct_annee; ?> activitées cette année</td>
+									<td><?php echo $cal_annee; ?> calories brûlées cette année</td>
+									<td><?php echo $denniv_annee; ?> m positifs cette année</td>
+								</tr>
+								<tr>
+									<td>Total</td>
+									<td><?php echo $temps_tot; ?> heures au total </td>
+									<td><?php echo $nbAct_tot; ?> activitées au total</td>
+									<td><?php echo $cal_tot; ?> calories brûlées au total</td>
+									<td><?php echo $denniv_tot; ?> m positifs au total</td>
+								</tr>
+						</table>
 
 
 	
