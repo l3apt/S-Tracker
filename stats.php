@@ -162,21 +162,26 @@
 
 							<canvas id="myChart"></canvas>
 							<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-						
+						</div>
 
 							<script>
 								
+								var select_elt = document.getElementById("choix_graph");
 								var ctx = document.getElementById('myChart').getContext('2d');
-								
-								
 
 
+								
+								//sur changement de données
 								select_elt.addEventListener("change", function (e){
 
-									var choix_data = choix_graph.value;
+									
+									//document.getElementById("graph_conteneur").innerHTML('<canvas id=\"myChart\"><canvas>');
+									
 
-
-									var select_elt = document.getElementById("choix_graph");
+									var choix_data = choix_graph.value;	
+									if (chart != null){
+										chart.destroy(); // this is my <canvas> element
+									}							
 
 									if (choix_data == "0"){
 										var dataSport =[<?php echo $tempsParSport[0]; ?>,
@@ -194,11 +199,11 @@
 									if (choix_data == "2"){
 										var dataSport =[<?php echo $nbActParSport[0]; ?>,
 													<?php echo $nbActParSport[1]; ?>, 
-													<?php echo $nbActParSport[2]; ?>, 
+													<?php echo $nbActParSport[2]; ?>,
 													<?php echo $nbActParSport[3]; ?>];
 									}
-			
-									var chart = new Chart(ctx, {
+
+							 var chart = new Chart(ctx, {
 								    // The type of chart we want to create
 								    type: 'doughnut',
 
@@ -222,6 +227,11 @@
 								    }
 
 								});
+													
+									
+									
+			
+									
 
 
 								});					
@@ -229,7 +239,7 @@
 
 							</script>
 
-						</div>
+						
 
 						<table>
 							<thead>
